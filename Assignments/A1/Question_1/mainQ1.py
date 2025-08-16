@@ -1,4 +1,6 @@
 import Q1
+import pickle 
+import matplotlib.pyplot as plt
 
 def main():
     
@@ -10,7 +12,26 @@ def main():
     images = Q1.get_images(img_dir_path)
     light_directions = Q1.get_light_directions(light_dirs_path)
 
-    Q1.display_images()
+    B01_data_path = 'yale_face_data/B01_albedo_normals.pkl'
+    data = pickle.load( open( B01_data_path, "rb" ) )
+    albedo_image = data['albedo_image']
+    surface_normals = data['surface_normals']
+
+    integration_method = "row wise"
+    height_map = Q1.find_height_map(surface_normals, integration_method)
+
+    # Have a look at some data
+    print('lighting direction vectors shape:',light_directions.shape)
+    plt.imshow(images[0]) # look at the first face image
+    plt.show()
+
+
+
+
+
+
+
+
 
 
 

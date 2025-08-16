@@ -19,11 +19,39 @@ def get_light_directions(light_dirs_path):
     return light_dirs
 
 
-def display_images():
-   # Have a look at some data
-    print('lighting direction vectors shape:',light_dirs.shape)
-    plt.imshow(imgs[0]) # look at the first face image
-    plt.show()
+"""
+find_height_map: returns [192x168] numpy array of heights
+
+surface_normals: _________ numpy array of surface normal vectors
+"""
+
+def find_height_map(surface_normals, integration_method):
+   
+   sn_x = surface_normals[:,:,0]
+   sn_y = surface_normals[:,:,1]
+   sn_z = surface_normals[:,:,2]
+
+   # Computing partial derivatives 
+   delta_x = -sn_x/sn_z
+   delta_y = -sn_y/sn_z
+
+   # Initialise height_map
+   height, width = sn_x.shape
+   height_map = np.zeros((height, width)) 
+   
+   if integration_method == "row wise": 
+      None
+
+   elif integration_method == "column wise": 
+    None
+
+   elif integration_method == "average": 
+    None
+   
+   
+
+   return height_map
+   None
 
 
 
