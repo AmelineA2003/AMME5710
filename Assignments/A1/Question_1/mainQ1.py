@@ -20,6 +20,8 @@ def main():
     integration_method = "row wise"
     height_map = Q1.find_height_map(surface_normals, integration_method)
 
+    Q1.plot_face_3d(height_map, albedo_image)
+
     # Have a look at some data
     print('lighting direction vectors shape:',light_directions.shape)
     plt.imshow(images[0]) # look at the first face image

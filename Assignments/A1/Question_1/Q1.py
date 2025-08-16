@@ -36,11 +36,17 @@ def find_height_map(surface_normals, integration_method):
    delta_y = -sn_y/sn_z
 
    # Initialise height_map
-   height, width = sn_x.shape
-   height_map = np.zeros((height, width)) 
+   row, col = sn_x.shape
+   height_map = np.zeros((row, col)) 
    
-   if integration_method == "row wise": 
-      None
+   if integration_method == "row wise":
+    for i in range(1,col): 
+         height_map[0, i] = height_map[0, i-1] + delta_x[0, i]
+    
+    for j in range(1, row): 
+       for i in range(col): 
+          height_map[j, i] = height_map[j-1, i] + delta_y[j, i]
+    
 
    elif integration_method == "column wise": 
     None
@@ -48,10 +54,8 @@ def find_height_map(surface_normals, integration_method):
    elif integration_method == "average": 
     None
    
-   
 
    return height_map
-   None
 
 
 
@@ -78,7 +82,7 @@ def plot_face_3d(height_map, albedo):
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
     ax.set_zlabel("Z")
-    ax.axis('equal')
+    # ax.axis('equal')
 
     plt.show()
 
