@@ -37,25 +37,42 @@ def find_height_map(surface_normals, integration_method):
 
    # Initialise height_map
    row, col = sn_x.shape
-   height_map = np.zeros((row, col)) 
+   height_map_row = np.zeros((row, col)) 
+   height_map_col = np.zeros((row, col)) 
+   height_map_avg = np.zeros((row, col)) 
+
+   # ------ROW-WISE--------------------------------------------
+   # Cumulative sum over first row 
+   height_map_row[0,:] = np.cumsum(delta_x[0,:])
+
+   # Summing down each column 
+   for i in range(1, row): 
+      height_map_row[i, :] = height_map_row[i-1, :] + delta_y[i, :]
+
    
+   # ------COL-WISE--------------------------------------------
+   # Cumulative sum down first column 
+   height_map_col[:,0] = np.cumsum(delta_y[:,0])
+
+   # Summing across each row
+   for i in range(1, col): 
+      height_map_col[:, i] = height_map_col[:, i-1] + delta_x[:, i]
+
+
+   # ------AVERAGE---------------------------------------------
+   height_map_avg = (height_map_row+height_map_col)/2
+   
+
    if integration_method == "row wise":
-    for i in range(1,col): 
-         height_map[0, i] = height_map[0, i-1] + delta_x[0, i]
-    
-    for j in range(1, row): 
-       for i in range(col): 
-          height_map[j, i] = height_map[j-1, i] + delta_y[j, i]
-    
-
-   elif integration_method == "column wise": 
-    None
-
-   elif integration_method == "average": 
-    None
+      return height_map_row
    
+   elif integration_method == "column wise": 
+      return height_map_col
+   
+   elif integration_method == "average": 
+      return height_map_avg
 
-   return height_map
+   return None
 
 
 
@@ -82,7 +99,8 @@ def plot_face_3d(height_map, albedo):
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
     ax.set_zlabel("Z")
-    # ax.axis('equal')
+   #  ax.axis('equal')
+    ax.axis('auto')
 
     plt.show()
 
