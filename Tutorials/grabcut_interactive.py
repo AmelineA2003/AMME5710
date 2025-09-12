@@ -41,7 +41,7 @@ def perform_seg():
     
 
 # Script starts here
-img = cv2.imread(os.path.join('example_images_week6','dog.png'))
+img = cv2.imread(os.path.join('example_images_week6','xhand.jpg'))
 img = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
 imgdisplay = img.copy()
 
@@ -78,7 +78,7 @@ output_img[select_mask==0] = 0
 output_img[select_mask==1] = 64
 output_img[select_mask==2] = 128
 output_img[select_mask==3] = 255
-cv2.imwrite('dog_mask.png', output_img)
+cv2.imwrite('hand_mask.png', output_img)
 
 
 cv2.destroyAllWindows()
